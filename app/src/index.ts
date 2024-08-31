@@ -5,6 +5,9 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { initUserRoutes } from './routes/userRoutes';
 import { errorMiddleware } from './middleware/errorMiddleware';
+import logger from './utils/logger';
+import { requestLogger } from './middleware/requestLogger';
+import { httpRequestDurationMicroseconds, register } from './utils/monitoring';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -13,6 +16,7 @@ const app = express();
 const PORT = process.env.APP_PORT || 3000;
 
 app.use(express.json());
+app.use(requestLogger);
 
 // Initialize DataSource with environment variables
 const AppDataSource = new DataSource({
@@ -42,6 +46,7 @@ AppDataSource.initialize().then(async () => {
     app.get('/protected', (req, res) => {
         const authHeader = req.headers.authorization;
         if (!authHeader) {
+            logger.warn('Authorization header missing');
             return res.status(401).json({ message: 'Authorization header missing' });
         }
 
@@ -51,9 +56,24 @@ AppDataSource.initialize().then(async () => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET!);
             res.json({ message: 'This is a protected route', decoded });
         } catch (error) {
-            console.log(error);
+            logger.error('Invalid token:', error);
             res.status(401).json({ message: 'Invalid token' });
         }
+    });
+
+    // Expose /metrics endpoint for Prometheus
+    app.get('/metrics', async (req, res) => {
+        res.set('Content-Type', register.contentType);
+        res.end(await register.metrics());
+    });
+
+    // Request duration monitoring middleware
+    app.use((req, res, next) => {
+        const end = httpRequestDurationMicroseconds.startTimer();
+        res.on('finish', () => {
+            end({ route: req.route?.path || req.url, code: res.statusCode, method: req.method });
+        });
+        next();
     });
 
     // Apply the error handling middleware at the end
@@ -62,4 +82,7 @@ AppDataSource.initialize().then(async () => {
     app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
     });
-}).catch((error) => console.log(error));
+}).catch((error) => {
+    logger.error('Database initialization failed:', error);
+    console.log(error);
+});

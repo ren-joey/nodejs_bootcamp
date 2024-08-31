@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { UserRole } from "../entity/User";
 import jwt from 'jsonwebtoken';
 import { ReqUser } from "../types/express";
+import logger from "../utils/logger";
 
 // Middleware to check if the user has the required role
 export const checkRole = (roles: UserRole[]) => {
@@ -23,7 +24,7 @@ export const checkRole = (roles: UserRole[]) => {
             req.user = decoded;
             next();
         } catch (error) {
-            console.log(error);
+            logger.error('Invalid token:', error);
             res.status(401).json({ message: 'Invalid token' });
         }
     };

@@ -16,6 +16,7 @@ This bootcamp will follow the [backend roadmap](https://roadmap.sh/backend) to e
 3. [Add User Authentication](./guides/03_add_user_authentication.md)
 4. [Implement Role-Based Access Control](./guides/04_implement_role-based_access_control.md)
 5. [Implement Data Validation and Error Handling](./guides/05_data_validation_and_error_handling.md)
+6. [Implement Logging and Monitoring](./guides/06_logging_and_monitoring.md)
 
 ## Coding Style
 1. [ESLint Configuration](./guides/coding_style/01_eslint_configuration.md)
