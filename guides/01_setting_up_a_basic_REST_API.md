@@ -36,7 +36,7 @@ NGINX_PORT=8080
 ```
 
 ## STEP3: Configure TypeORM
-Create a new file `ormconfig.ts` in the `app` directory for TypeORM configuration:
+Create a new file `ormconfig.ts` in the `app/src` directory for TypeORM configuration:
 ```typescript
 import { DataSourceOptions } from 'typeorm';
 import dotenv from 'dotenv';
