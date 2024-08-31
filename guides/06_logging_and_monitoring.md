@@ -177,8 +177,8 @@ AppDataSource.initialize().then(async () => {
 
 ```
 
-## STEP 6: Update Catch Handling
-Update all catch errors handling to logging tool.<br>
+## STEP 6: Update Error Handling
+Update all catch error handling to logging tool.<br>
 ```ts
 // src/middleware/errorMiddleware.ts
 import { NextFunction, Request, Response } from "express";
