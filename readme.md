@@ -12,6 +12,7 @@ This bootcamp will follow the [backend roadmap](https://roadmap.sh/backend) to e
 
 ## Guides
 0. [Docker Compose Establishing](./guides/00_docker_compose_establishing.md)
+1. [Setting Up a Basic REST API](./guides/01_setting_up_a_basic_REST_API.md)
 
 ## Host Environment
 1. nvm=1.1.11

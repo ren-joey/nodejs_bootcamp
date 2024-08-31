@@ -97,7 +97,7 @@ add an index.ts file with the following content:
 import express from 'express';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.APP_PORT || 3000;
 
 app.get('/', (req, res) => {
   res.send('Hello, World!');
