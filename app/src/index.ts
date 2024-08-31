@@ -50,11 +50,12 @@ AppDataSource.initialize().then(async () => {
             const decoded = jwt.verify(token, process.env.JWT_SECRET!);
             res.json({ message: 'This is a protected route', decoded });
         } catch (error) {
+            console.log(error);
             res.status(401).json({ message: 'Invalid token' });
         }
     });
 
     app.listen(PORT, () => {
-        console.log(`Server is running on http://localhost:${PORT}`)
+        console.log(`Server is running on http://localhost:${PORT}`);
     });
 }).catch((error) => console.log(error));

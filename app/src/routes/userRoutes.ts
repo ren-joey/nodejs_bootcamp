@@ -14,14 +14,14 @@ export const initUserRoutes = (userRepository: Repository<User>) => {
 
     // Registration Route
     router.post('/register', async (req, res) => {
-        if (!process.env.HASH_SALT) return res.status(500).json({ message: 'Some crucial keys haven\'t been set' })
+        if (!process.env.HASH_SALT) return res.status(500).json({ message: 'Some crucial keys haven\'t been set' });
 
         const { name, email, password, role } = req.body;
         const user = await userRepository.findOne({ where: { email } });
 
         // Check if user already exists
         if (user) {
-            return res.status(400).json({ message: 'This email address have been used' })
+            return res.status(400).json({ message: 'This email address have been used' });
         }
 
         // Hash password
@@ -72,6 +72,6 @@ export const initUserRoutes = (userRepository: Repository<User>) => {
     });
 
     return router;
-}
+};
 
 export default router;

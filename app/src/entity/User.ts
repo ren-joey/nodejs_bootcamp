@@ -9,22 +9,22 @@ export enum UserRole {
 @Entity()
 @Unique(['email'])
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+@PrimaryGeneratedColumn()
+    id!: number;
 
-  @Column()
-  name!: string;
+@Column()
+    name!: string;
 
-  @Column()
-  email!: string;
+@Column()
+    email!: string;
 
-  @Column()
-  password!: string;
+@Column()
+    password!: string;
 
-  @Column({
+@Column({
     type: 'enum',
     enum: UserRole,
     default: UserRole.USER
-  })
-  role!: UserRole
+})
+    role!: UserRole;
 }
