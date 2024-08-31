@@ -42,7 +42,7 @@ services:
   db:
     image: postgres:14
     environment:
-      POSTGRES_DB: mydb
+      POSTGRES_DB: testdb
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     volumes:
