@@ -2,6 +2,8 @@ import express from 'express';
 import { DataSource } from 'typeorm';
 import { User } from './entity/User';
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
+import { initUserRoutes } from './routes/userRoutes';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -33,33 +35,23 @@ AppDataSource.initialize().then(async () => {
     });
 
     const userRepository = AppDataSource.getRepository(User);
+    app.use(initUserRoutes(userRepository));
 
-    // Basic CRUD routes
-    app.get('/users', async (req, res) => {
-        const users = await userRepository.find();
-        res.json(users);
-    });
-
-    app.post('/users', async (req, res) => {
-        const user = userRepository.create(req.body);
-        const result = await userRepository.save(user);
-        res.json(result);
-    });
-
-    app.put('/users/:id', async (req, res) => {
-        const user = await userRepository.findOneBy({ id: parseInt(req.params.id) });
-        if (user) {
-            userRepository.merge(user, req.body);
-            const result = await userRepository.save(user);
-            res.json(result);
-        } else {
-            res.status(404).send('User not found');
+    // A protected route example
+    app.get('/protected', (req, res) => {
+        const authHeader = req.headers.authorization;
+        if (!authHeader) {
+            return res.status(401).json({ message: 'Authorization header missing' });
         }
-    });
 
-    app.delete('/users/:id', async (req, res) => {
-        const result = await userRepository.delete(req.params.id);
-        res.json(result);
+        const token = authHeader.split(' ')[1];
+
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+            res.json({ message: 'This is a protected route', decoded });
+        } catch (error) {
+            res.status(401).json({ message: 'Invalid token' });
+        }
     });
 
     app.listen(PORT, () => {
