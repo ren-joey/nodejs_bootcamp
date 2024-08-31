@@ -1,5 +1,8 @@
 {
     "words": [
-        "typeorm"
+        "typeorm",
+        "tseslint",
+        "testdb",
+        "ormconfig"
     ]
 }
