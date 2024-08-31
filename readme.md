@@ -15,6 +15,7 @@ This bootcamp will follow the [backend roadmap](https://roadmap.sh/backend) to e
 2. [Setting Up a Basic REST API](./guides/02_setting_up_a_basic_REST_API.md)
 3. [Add User Authentication](./guides/03_add_user_authentication.md)
 4. [Implement Role-Based Access Control](./guides/04_implement_role-based_access_control.md)
+5. [Implement Data Validation and Error Handling](./guides/05_data_validation_and_error_handling.md)
 
 ## Coding Style
 1. [ESLint Configuration](./guides/coding_style/01_eslint_configuration.md)

@@ -4,6 +4,7 @@ import { User } from './entity/User';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import { initUserRoutes } from './routes/userRoutes';
+import { errorMiddleware } from './middleware/errorMiddleware';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -54,6 +55,9 @@ AppDataSource.initialize().then(async () => {
             res.status(401).json({ message: 'Invalid token' });
         }
     });
+
+    // Apply the error handling middleware at the end
+    app.use(errorMiddleware);
 
     app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
