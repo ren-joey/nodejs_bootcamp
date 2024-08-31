@@ -1,6 +1,11 @@
 import 'reflect-metadata';
 import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
 
+export enum UserRole {
+    USER = 'user',
+    ADMIN = 'admin'
+}
+
 @Entity()
 @Unique(['email'])
 export class User {
@@ -15,4 +20,11 @@ export class User {
 
   @Column()
   password!: string;
+
+  @Column({
+    type: 'enum',
+    enum: UserRole,
+    default: UserRole.USER
+  })
+  role!: UserRole
 }

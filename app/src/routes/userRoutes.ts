@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { Repository } from "typeorm";
-import { User } from "../entity/User";
+import { User, UserRole } from "../entity/User";
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { checkRole } from "../middleware/roleMiddleware";
 
 dotenv.config();
 
@@ -15,7 +16,7 @@ export const initUserRoutes = (userRepository: Repository<User>) => {
     router.post('/register', async (req, res) => {
         if (!process.env.HASH_SALT) return res.status(500).json({ message: 'Some crucial keys haven\'t been set' })
 
-        const { name, email, password } = req.body;
+        const { name, email, password, role } = req.body;
         const user = await userRepository.findOne({ where: { email } });
 
         // Check if user already exists
@@ -30,7 +31,12 @@ export const initUserRoutes = (userRepository: Repository<User>) => {
         );
 
         // Create new user
-        const newUser = userRepository.create({ name, email, password: hashedPassword });
+        const newUser = userRepository.create({
+            name,
+            email,
+            password: hashedPassword,
+            role: role || UserRole.USER
+        });
         await userRepository.save(newUser);
 
         res.status(201).json({ message: 'User registered successfully' });
@@ -53,11 +59,16 @@ export const initUserRoutes = (userRepository: Repository<User>) => {
         }
 
         // Generate JWT
-        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
+        const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET!, {
             expiresIn: '1h'
         });
 
         res.json({ token });
+    });
+
+    // Admin-Only Route
+    router.get('/admin', checkRole([UserRole.ADMIN]), (req, res) => {
+        res.json({ message: 'Welcome to the admin panel!' });
     });
 
     return router;
