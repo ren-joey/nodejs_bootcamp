@@ -11,7 +11,7 @@ This bootcamp will follow the [backend roadmap](https://roadmap.sh/backend) to e
 5. Typescript
 
 ## Guides
-00. [Docker Compose Establishing](./guides/00_docker_compose_establishing.md)
+0. [Docker Compose Establishing](./guides/00_docker_compose_establishing.md)
 
 ## Host Environment
 1. nvm=1.1.11
