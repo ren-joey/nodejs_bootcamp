@@ -36,5 +36,16 @@ services:
     env_file:
       - .env
 
+  redis:
+    image: redis:latest
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+
 volumes:
   postgres_data:
+  redis_data:
