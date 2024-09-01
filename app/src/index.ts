@@ -8,6 +8,7 @@ import { errorMiddleware } from './middleware/errorMiddleware';
 import logger from './utils/logger';
 import { requestLogger } from './middleware/requestLogger';
 import { httpRequestDurationMicroseconds, register } from './utils/monitoring';
+import rateLimiter from './middleware/rateLimiter';
 
 // Load environment variables from .env file
 dotenv.config();
@@ -17,6 +18,7 @@ const PORT = process.env.APP_PORT || 3000;
 
 app.use(express.json());
 app.use(requestLogger);
+app.use(rateLimiter);
 
 // Initialize DataSource with environment variables
 const AppDataSource = new DataSource({

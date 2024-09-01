@@ -19,6 +19,7 @@ This bootcamp will follow the [backend roadmap](https://roadmap.sh/backend) to e
 6. [Implement Logging and Monitoring](./guides/06_logging_and_monitoring.md)
 7. [Database Optimization](./guides/07_database_optimization.md)
 8. [Server-Side Caching with Redis](./guides/08_server_side_caching.md)
+9. [Implement Rate Limiting](./guides/09_rate_limiting.md)
 
 ## Coding Style
 1. [ESLint Configuration](./guides/coding_style/01_eslint_configuration.md)
