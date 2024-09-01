@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Unique, Index } from 'typeorm';
 
 export enum UserRole {
     USER = 'user',
@@ -16,6 +16,7 @@ export class User {
     name!: string;
 
 @Column()
+@Index('IDX_USER_EMAIL', { unique: true })
     email!: string;
 
 @Column()
